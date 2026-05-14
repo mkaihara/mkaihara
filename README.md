@@ -41,21 +41,6 @@ Secure AI agent infrastructure exploring:
 
 ---
 
-## Tech Stack
-
-### Languages
-`C++` `Python` `Rust` `Cairo`
-
-### Areas
-`AI Agents` `Cryptography` `ZK Proofs` `Distributed Systems`
-`Secure Computing` `Blockchain` `Cloud Infrastructure`
-
-### Tools & Platforms
-`Docker` `Linux` `OpenAI APIs` `Azure`
-`GitHub Actions` 
-
----
-
 ## Current Focus
 
 - Building secure AI infrastructure
