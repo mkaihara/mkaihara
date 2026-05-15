@@ -35,4 +35,4 @@ Host (LangGraph) ──TCP──▶ SGX Enclave (Gramine + Python)
  
 ## Connect
  
-[LinkedIn](https://www.linkedin.com/in/mkaihara) · [GitHub](https://github.com/mkaihara) · [marcelokaihara.com](https://www.marcelokaihara.com)
+[LinkedIn](https://www.linkedin.com/in/mkaihara) · [marcelokaihara.com](https://www.marcelokaihara.com)
