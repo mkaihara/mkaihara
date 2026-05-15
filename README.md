@@ -1,4 +1,4 @@
-<p align="center"> <img src="assets/banner.gif" alt="Banner" width="100%" /> </p>
+<p align="center"> <img src="assets/confidential-ai-agent-banner.gif" alt="Banner" width="100%" /> </p>
 
 # Hi, I'm Marcelo 👋
  
