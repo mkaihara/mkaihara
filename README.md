@@ -1,3 +1,5 @@
+<p align="center"> <img src="assets/banner.gif" alt="Banner" width="100%" /> </p>
+
 # Hi, I'm Marcelo 👋
  
 I build systems at the intersection of **AI agents**, **cryptography**, and **confidential computing**.
