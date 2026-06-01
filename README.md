@@ -30,37 +30,51 @@ Host (LangGraph) ──TCP──▶ SGX Enclave (Gramine + Python)
 
 ### 🧪 [Tester Agent](https://github.com/mkaihara/tester-agent)
 
-An autonomous CI test failure analyst built with LangGraph. Classifies failures, performs root cause analysis via tool-augmented reasoning, and generates structured reports — routing each failure through a specialized analysis pipeline rather than treating all failures identically.
+An autonomous CI test failure analyst built with LangGraph. Classifies failures, performs root cause analysis via tool-augmented reasoning, and generates structured reports. Features a reflection loop where a GPT-4o evaluator independently reviews every Claude triage classification before routing proceeds.
 
 ```
 CI failure excerpt
         │
         ▼
-   Triage Node          (hybrid prompt — 100% accuracy on 25 CPython fixtures)
+   Triage Node (Claude Sonnet 4)
         │
-        ▼ conditional routing
-        │
+        ▼
+   Evaluator Node (GPT-4o) ── reject + feedback ──► Triage Node (revised)
+        │                                                  ↑
+        │                           (up to 3 iterations) ─┘
+        │ approve
+        ▼
         ├── flaky ──► Flaky Analysis + get_test_run_history (GitHub API tool call)
-        ├── regression ──► Regression Analysis         │
-        ├── env_issue ──► Environment Analysis         │
-        ├── logic_bug ──► Logic Bug Analysis           │
-        └── timeout ──► Timeout Analysis               │
-                │                                      │
-                ├──────────────────────────────────────┘ 
+        ├── regression ──► Regression Analysis
+        ├── env_issue ──► Environment Analysis
+        ├── logic_bug ──► Logic Bug Analysis
+        └── timeout ──► Timeout Analysis
+                │
                 ▼
-          Report Node   (structured plain-text report)
+          Report Node (structured plain-text report)
 ```
 
 **What makes it genuinely agentic:**
+- The reflection loop uses two different model families (Claude + GPT-4o) to reduce shared systematic bias — a single-model loop would approve its own wrong answers
 - For flaky failures, the LLM decides whether to call `get_test_run_history` — querying pass/fail rates across 50 recent CI runs at the test level, not the workflow level
 - Conditional routing means each failure type receives a specialized diagnostic prompt, not a generic one
-- Three prompt strategies tested (direct JSON 84% → chain-of-thought 68% → hybrid 100%) with findings documented
+
+**Benchmark across 25 labelled CPython CI fixtures:**
+
+| Method | Accuracy |
+|---|---|
+| Regex heuristics | 60% |
+| Single LLM prompt | 84% |
+| Routed agent, no evaluator | 96% |
+| **Routed agent + GPT-4o evaluator** | **100%** |
+
+The jump from 96% to 100% was one fixture: a CPython forkserver signal-handling test (`test_forkserver_sigkill`) that Claude consistently classified as `logic_bug` because the excerpt showed a bare `AssertionError` with no explicit non-determinism language. GPT-4o rejected that classification, identified the test as timing-dependent cross-process synchronization, and the triage node revised correctly on the second pass.
 
 ---
 
 ## Stack
 
-`Intel SGX` · `Gramine` · `LangGraph` · `Anthropic SDK` · `DCAP attestation` · `Python` · `Azure DCsv3`
+`Intel SGX` · `Gramine` · `LangGraph` · `Anthropic SDK` · `OpenAI SDK` · `DCAP attestation` · `Python` · `Azure DCsv3`
 
 ---
 
