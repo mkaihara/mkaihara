@@ -1,3 +1,5 @@
+![Marcelo Kaihara — Agentic AI · Confidential Computing · Applied Cryptography](assets/marcelo-kaihara-banner.svg)
+
 # Hi, I'm Marcelo 👋
 
 I build systems at the intersection of **AI agents**, **cryptography**, and **confidential computing**.
