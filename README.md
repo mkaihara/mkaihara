@@ -12,13 +12,7 @@ My background spans cryptographic hardware (PhD), SGX-based key management in pr
 
 A LangGraph agent that calls Claude from inside an Intel SGX enclave. The API key never touches the host. Every response is cryptographically signed and independently verifiable via DCAP remote attestation.
 
-```
-Host (LangGraph) ──TCP──▶ SGX Enclave (Gramine + Python)
-                               │
-                          Sealed storage
-                          API key + ECDSA signing key
-                          encrypted with hardware key
-```
+![Architecture](docs/confidential_architecture.png)
 
 **What makes it real, not conceptual:**
 - ECDSA-P256 output signing: `sign(SHA256(prompt ‖ result ‖ timestamp ‖ MRENCLAVE))`
