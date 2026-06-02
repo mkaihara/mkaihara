@@ -39,17 +39,6 @@ An autonomous CI test failure analyst built with LangGraph. Classifies failures,
 - For flaky failures, the LLM decides whether to call `get_test_run_history` — querying pass/fail rates across 50 recent CI runs at the test level, not the workflow level
 - Conditional routing means each failure type receives a specialized diagnostic prompt, not a generic one
 
-**Benchmark across 25 labelled CPython CI fixtures:**
-
-| Method | Accuracy |
-|---|---|
-| Regex heuristics | 60% |
-| Single LLM prompt | 84% |
-| Routed agent, no evaluator | 96% |
-| **Routed agent + GPT-4o evaluator** | **100%** |
-
-The jump from 96% to 100% was one fixture: a CPython forkserver signal-handling test (`test_forkserver_sigkill`) that Claude consistently classified as `logic_bug` because the excerpt showed a bare `AssertionError` with no explicit non-determinism language. GPT-4o rejected that classification, identified the test as timing-dependent cross-process synchronization, and the triage node revised correctly on the second pass.
-
 ---
 
 ## Stack
