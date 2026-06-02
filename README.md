@@ -32,27 +32,7 @@ Host (LangGraph) ──TCP──▶ SGX Enclave (Gramine + Python)
 
 An autonomous CI test failure analyst built with LangGraph. Classifies failures, performs root cause analysis via tool-augmented reasoning, and generates structured reports. Features a reflection loop where a GPT-4o evaluator independently reviews every Claude triage classification before routing proceeds.
 
-```
-CI failure excerpt
-        │
-        ▼
-   Triage Node (Claude Sonnet 4)
-        │
-        ▼
-   Evaluator Node (GPT-4o) ── reject + feedback ──► Triage Node (revised)
-        │                                                  ↑
-        │                           (up to 3 iterations) ─┘
-        │ approve
-        ▼
-        ├── flaky ──► Flaky Analysis + get_test_run_history (GitHub API tool call)
-        ├── regression ──► Regression Analysis
-        ├── env_issue ──► Environment Analysis
-        ├── logic_bug ──► Logic Bug Analysis
-        └── timeout ──► Timeout Analysis
-                │
-                ▼
-          Report Node (structured plain-text report)
-```
+![tester_agent](images/tester_architecture.png)
 
 **What makes it genuinely agentic:**
 - The reflection loop uses two different model families (Claude + GPT-4o) to reduce shared systematic bias — a single-model loop would approve its own wrong answers
