@@ -22,19 +22,6 @@ A LangGraph agent that calls Claude from inside an Intel SGX enclave. The API ke
 
 ---
 
-### 🧪 [Tester Agent](https://github.com/mkaihara/tester-agent)
-
-An autonomous CI test failure analyst built with LangGraph. Classifies failures, performs root cause analysis via tool-augmented reasoning, and generates structured reports. Features a reflection loop where a GPT-4o evaluator independently reviews every Claude triage classification before routing proceeds.
-
-![tester_agent](assets/tester_architecture.png)
-
-**What makes it genuinely agentic:**
-- The reflection loop uses two different model families (Claude + GPT-4o) to reduce shared systematic bias — a single-model loop would approve its own wrong answers
-- For flaky failures, the LLM decides whether to call `get_test_run_history` — querying pass/fail rates across 50 recent CI runs at the test level, not the workflow level
-- Conditional routing means each failure type receives a specialized diagnostic prompt, not a generic one
-
----
-
 ## Stack
 
 `Intel SGX` · `Gramine` · `LangGraph` · `Anthropic SDK` · `OpenAI SDK` · `DCAP attestation` · `Python` · `Azure DCsv3`
